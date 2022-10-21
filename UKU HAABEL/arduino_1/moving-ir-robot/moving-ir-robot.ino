@@ -9,13 +9,15 @@
 //decode_results results;
 int ir_result;
 long tim;
+int x = 0;
+int y = 0;
 
 
 
 
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(250000);
   pinMode(pin1, INPUT);
   pinMode(pin2, INPUT);
   pinMode(pin3, INPUT);
@@ -28,60 +30,32 @@ void setup() {
 void loop() {
   if (IrReceiver.decode()) {
     ir_result = IrReceiver.decodedIRData.decodedRawData;
-      Serial.println(ir_result);
+      //Serial.println(ir_result);
       IrReceiver.resume();
-      switch (ir_result) {
-  case 6176:
-    //up
-    front();
-    tim = millis();
-    break;
-  case 6160:
-    //right
-    right();
-    tim = millis();
-    break;
-  case 6161:
-    //left
-    left();
-    tim = millis();
-    break;
-  case 6177:
-    //down
-    back();
-    tim = millis();
-    break;
-    case 4128:
-    //up
-    front();
-    tim = millis();
-    break;
-  case 4112:
-    //right
-    right();
-    tim = millis();
-    break;
-  case 4113:
-    //left
-    left();
-    tim = millis();
-    break;
-  case 4129:
-    //down
-    back();
-    tim = millis();
-    break;
-  }
+      
+      if (ir_result>6000 && ir_result<7025){
+        x = ir_result - 6000;
+      }
+      else if (ir_result>8000 && ir_result<9025){
+        y = ir_result - 8000;
+      } else {
+        return;
+      }
+      Serial.print(x);
+      Serial.print("  ");
+      Serial.print(y);
+      Serial.print("  ");
+      Serial.println(ir_result);
       
   }
-  if (millis() - tim > 1000) {
+  /*if (millis() - tim > 500) {
     stopm();
-  }
+  }*/
 }
 void front() {
-  //analogWrite(pin1, 255);
+  analogWrite(pin2, 255);
   analogWrite(pin3, 255);
-  Serial.println("test1");
+  //Serial.println(millis() - tim);
   
 }
 void back() {
@@ -98,6 +72,6 @@ void stopm() {
   analogWrite(pin2, 0);
   analogWrite(pin3, 0);
   analogWrite(pin4, 0);
-  Serial.println("test2");
+  //Serial.println("test2");
 }
 
