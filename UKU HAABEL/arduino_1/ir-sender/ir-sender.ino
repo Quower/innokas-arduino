@@ -1,6 +1,6 @@
 #include <IRremote.h> // >v3.0.0
                                             
-#define PIN_SEND 3
+#define PIN_SEND 11
 #define pinx A2
 #define piny A1
 #define pinv A0
