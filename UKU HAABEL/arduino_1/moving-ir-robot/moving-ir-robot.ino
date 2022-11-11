@@ -35,7 +35,8 @@ void loop() {
       //Serial.println(ir_result);
       IrReceiver.resume();
 
-      Serial.println(ir_result);
+      Serial.print(ir_result);
+      Serial.print("   ");
       
       if (ir_result>6000 && ir_result<7025){
         x = ir_result - 6000;
@@ -45,14 +46,19 @@ void loop() {
       } else {
         return;
       }
-      
-
-      
-
-      int vmrb = map(y, 512-deadzone, 0+borderdeadzone, 0, 255);
-      int vmrf = map(y, 512+deadzone, 1024-borderdeadzone, 0, 255);
       int vmlf = map(y, 512+deadzone, 1024-borderdeadzone, 0, 255);
-      int vmlb = map(y, 512-deadzone, 0+borderdeadzone, 0, 255);
+      int vmrf = map(y, 512+deadzone, 1024-borderdeadzone, 0, 255);
+      int vmlb = map(y, 512-deadzone, 1+borderdeadzone, 0, 255);
+      int vmrb = map(y, 512-deadzone, 1+borderdeadzone, 0, 255);
+
+      Serial.print(vmlf);
+      Serial.print("  ");
+      Serial.print(vmrf);
+      Serial.print("  ");
+      Serial.print(vmlb);
+      Serial.print("  ");
+      Serial.print(vmrb);
+      Serial.print("     ");
       
       if (vmrf>255) {vmrf = 255;}
       if (vmrf<0) {vmrf = 0;}
@@ -72,7 +78,7 @@ void loop() {
       Serial.print(vmrb);
       Serial.print("     ");
       
-      int sider;
+      /*int sider;
       int sidel;
       if (vmrf > 0) {
 
@@ -108,9 +114,9 @@ void loop() {
       if (vmlf>255) {vmlf = 255;}
       if (vmlf<0) {vmlf = 0;}
       if (vmlb>255) {vmlb = 255;}
-      if (vmlb<0) {vmlb = 0;}
+      if (vmlb<0) {vmlb = 0;}*/
 
-      Serial.print(vmlf);
+      /*Serial.print(vmlf);
       Serial.print("  ");
       Serial.print(vmrf);
       Serial.print("  ");
@@ -121,7 +127,7 @@ void loop() {
       Serial.print(sidel);
       Serial.print("  ");
       Serial.print(sider);
-      Serial.print("     ");
+      Serial.print("     ");*/
 
 
       analogWrite(mrb, vmrb);
@@ -163,4 +169,3 @@ void stopm() {
   analogWrite(pin4, 0);
   //Serial.println("test2");
 }*/
-
