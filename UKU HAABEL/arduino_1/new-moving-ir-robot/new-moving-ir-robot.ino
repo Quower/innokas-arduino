@@ -55,19 +55,24 @@ void loop() {
       else {
         return;
       }
-      int vmlf = map(y, 512+deadzone, 1024-borderdeadzone, 0, 255);
-      int vmrf = map(y, 512+deadzone, 1024-borderdeadzone, 0, 255);
-      int vmlb = map(y, 512-deadzone, 1+borderdeadzone, 0, 255);
-      int vmrb = map(y, 512-deadzone, 1+borderdeadzone, 0, 255);
+      int svmlf = map(y, 512+deadzone, 1024-borderdeadzone, 0, 255);
+      int svmrf = map(y, 512+deadzone, 1024-borderdeadzone, 0, 255);
+      int svmlb = map(y, 512-deadzone, 1+borderdeadzone, 0, 255);
+      int svmrb = map(y, 512-deadzone, 1+borderdeadzone, 0, 255);
+
+      int vmlf = 0;
+      int vmrf = 0;
+      int vmlb = 0;
+      int vmrb = 0;
       
-      if (vmrf>255) {vmrf = 255;}
-      if (vmrf<0) {vmrf = 0;}
-      if (vmrb>255) {vmrb = 255;}
-      if (vmrb<0) {vmrb = 0;}
-      if (vmlf>255) {vmlf = 255;}
-      if (vmlf<0) {vmlf = 0;}
-      if (vmlb>255) {vmlb = 255;}
-      if (vmlb<0) {vmlb = 0;}
+      if (svmrf>255) {svmrf = 255;}
+      if (svmrf<0) {svmrf = 0;}
+      if (svmrb>255) {svmrb = 255;}
+      if (svmrb<0) {svmrb = 0;}
+      if (svmlf>255) {svmlf = 255;}
+      if (svmlf<0) {svmlf = 0;}
+      if (svmlb>255) {svmlb = 255;}
+      if (svmlb<0) {svmlb = 0;}
 
       
       int sider = map(x, 512+deadzone, 1024-borderdeadzone, 100, 1);
@@ -86,8 +91,8 @@ void loop() {
       Serial.print(sider);
       Serial.print("     ");
 
-        vmrf = (vmrf * map(sider, 1, 100, 50, 100 ))/100;
-        vmlf = (vmlf * map(sidel, 1, 100, 50, 100 ))/100;
+        vmrf = ((svmrf * map(sider, 1, 100, 50, 100 ))-(svmrf * map(svmlf, 0, 255, 1, 50 )))/100;
+        vmlf = ((svmlf * map(sidel, 1, 100, 50, 100 ))-(svmlf * map(svmrf, 0, 255, 1, 50 )))/100;
 
       if (sidel = 1) {
         vmlf = ((vmlf * sider) + ((255 * (100 - sider))))/100;
@@ -107,8 +112,8 @@ void loop() {
       Serial.print(sider);
       Serial.print("     ");
  
-        vmrb = (vmrb * map(sider, 1, 100, 50, 100 ))/100;
-        vmlb = (vmlb * map(sidel, 1, 100, 50, 100 ))/100;
+        vmrb = ((svmrb * map(sider, 1, 100, 50, 100 ))-(svmrb * map(svmlb, 0, 255, 1, 50 )))/100;
+        vmlb = ((svmlb * map(sidel, 1, 100, 50, 100 ))-(svmlb * map(svmrb, 0, 255, 1, 50 )))/100;
 
       if (sidel = 1) {
         vmlb = ((vmlb * sider) + ((255 * (100 - sider))))/100;

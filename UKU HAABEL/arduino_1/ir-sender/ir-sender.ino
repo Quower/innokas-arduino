@@ -26,9 +26,7 @@ void loop()
   v = analogRead(pinv);
   Serial.print(x);
   Serial.print("   ");
-  Serial.print(y);
-  Serial.print("   ");
-  Serial.println(v);
+  Serial.println(y);
   x = x + 6001;
   y = y + 8001;
   IrSender.sendNEC(y, 0x0, true);
