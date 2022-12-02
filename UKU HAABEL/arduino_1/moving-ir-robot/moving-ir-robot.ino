@@ -1,10 +1,16 @@
 #include <IRremote.hpp>
+//#include <Servo.h>
+
+//Servo myservo;
+
+
 
 #define PIN_RECV 2
 #define mrb 6
 #define mrf 3
 #define mlf 5
 #define mlb 11
+#define servo A5
 //IRrecv irrecv(PIN_RECV);
 //decode_results results;
 int ir_result;
@@ -20,13 +26,14 @@ long mls = 0;
 
 
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(250000);
   pinMode(mrf, INPUT);
   pinMode(mrb, INPUT);
   pinMode(mlf, INPUT);
   pinMode(mlb, INPUT);
   //irrecv.enableIRIn();
   IrReceiver.begin(PIN_RECV, true);
+  //myservo.attach(servo);
 
 }
 
@@ -35,10 +42,8 @@ void loop() {
     ir_result = IrReceiver.decodedIRData.decodedRawData;
       //Serial.println(ir_result);
       IrReceiver.resume();
+      //Serial.println(myservo.read());
 
-      Serial.print(ir_result);
-      Serial.print("     ");
-      
       if (ir_result>6000 && ir_result<7025){
         x = ir_result - 6000;
         mls = millis();
@@ -46,11 +51,12 @@ void loop() {
       else if (ir_result>8000 && ir_result<9025){
         y = ir_result - 8000;
         mls = millis();
-      } else if (millis() - mls > 600) {
+      } else if (millis() - mls > 300) {
         analogWrite(mrb, 0);
         analogWrite(mrf, 0);
         analogWrite(mlb, 0);
         analogWrite(mlf, 0);
+        return;
       }
       else {
         return;
@@ -81,10 +87,10 @@ void loop() {
       if (sidel>100) {sidel = 100;}
       if (sidel<1) {sidel = 1;}
 
-      Serial.print(sidel);
+      /*Serial.print(sidel);
       Serial.print("  ");
       Serial.print(sider);
-      Serial.print("     ");
+      Serial.print("     ");*/
 
         vmrf = (vmrf * map(sider, 1, 100, 50, 100 ))/100;
         vmlf = (vmlf * map(sidel, 1, 100, 50, 100 ))/100;
@@ -102,10 +108,10 @@ void loop() {
       if (sidel>100) {sidel = 100;}
       if (sidel<1) {sidel = 1;}
 
-      Serial.print(sidel);
+      /*Serial.print(sidel);
       Serial.print("  ");
       Serial.print(sider);
-      Serial.print("     ");
+      Serial.print("     ");*/
  
         vmrb = (vmrb * map(sider, 1, 100, 50, 100 ))/100;
         vmlb = (vmlb * map(sidel, 1, 100, 50, 100 ))/100;
@@ -128,13 +134,14 @@ void loop() {
       if (vmlb>255) {vmlb = 255;}
       if (vmlb<0) {vmlb = 0;}
 
-      Serial.print(vmlf);
+      /*Serial.print(vmlf);
       Serial.print("  ");
       Serial.print(vmrf);
       Serial.print("  ");
       Serial.print(vmlb);
       Serial.print("  ");
-      Serial.println(vmrb);
+      Serial.println(vmrb);*/
+      //myservo.write(map(vmrf, 0, 255, 0, 180));
 
 
       analogWrite(mrb, vmrb);
