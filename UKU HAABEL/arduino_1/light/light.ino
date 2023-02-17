@@ -5,11 +5,12 @@
 
 // long max = 80;
 // long min = 30;
-int value = 50;
-int bitdelay = 50;
+int value = 30;
+int bitdelay = 20;
 int adin = 0;
 int number = 0;
 int zero = 0;
+long mills = 0;
 boolean record = false;
 String recording = "";
 
@@ -22,6 +23,7 @@ void setup() {
 }
 
 void loop() {
+    mills = millis();
     long light = analogRead(temp);
     
     if (light > value) {
@@ -45,7 +47,21 @@ void loop() {
     if (record == true) {number++;}
     if (number == 8) {
     number = 0;
-    recording = recording + " ";
+    int nm = 0;
+    //recording = recording + " ";
+            if (recording[0] == '1') {nm = nm + 128;}
+if (recording[1] == '1') {nm = nm + 64;}
+if (recording[2] == '1') {nm = nm + 32;}
+if (recording[3] == '1') {nm = nm + 16;}
+if (recording[4] == '1') {nm = nm + 8;}
+if (recording[5] == '1') {nm = nm + 4;}
+if (recording[6] == '1') {nm = nm + 2;}
+if (recording[7] == '1') {nm = nm + 1;}
+    Serial.print((char)nm);
+
+
+
+    recording = "";
     }
     if (adin == 8) {
         record = true;
@@ -59,12 +75,13 @@ void loop() {
         record = false;
         number = 0;
 
-        Serial.println(recording);
+        //Serial.println(recording);
         //Serial.print("|");
+        Serial.println("");
         recording = "";
 
     }
-    delay(bitdelay);
+    delay(mills - millis() + bitdelay);
 
 
 }
