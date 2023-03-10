@@ -6,7 +6,7 @@
 // long max = 80;
 // long min = 30;
 int value = 30;
-int bitdelay = 20;
+int bitdelay = 10;
 int adin = 0;
 int number = 0;
 int zero = 0;
@@ -19,7 +19,7 @@ void setup() {
     pinMode(r, OUTPUT);
     pinMode(g, OUTPUT);
     pinMode(b, OUTPUT);
-    Serial.begin(250000);
+    Serial.begin(2000000);
 }
 
 void loop() {
@@ -57,7 +57,7 @@ if (recording[4] == '1') {nm = nm + 8;}
 if (recording[5] == '1') {nm = nm + 4;}
 if (recording[6] == '1') {nm = nm + 2;}
 if (recording[7] == '1') {nm = nm + 1;}
-    Serial.print((char)nm);
+    Serial.write(nm);
 
 
 
@@ -82,6 +82,7 @@ if (recording[7] == '1') {nm = nm + 1;}
 
     }
     delay(mills - millis() + bitdelay);
+    //delay(bitdelay);
 
 
 }

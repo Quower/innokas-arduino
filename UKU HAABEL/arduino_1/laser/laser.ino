@@ -1,9 +1,10 @@
+#include <RS-FEC.h>
 #define laser 3
 
 String messagebin = "hiina";
-int bitdelay = 20;
+int bitdelay = 10;
 // int bytetdelay = 8;
-int wait = 16;
+int wait = 8;
 int out1 = 255;
 int out0 = 0;
 long mills = 0;
@@ -11,7 +12,7 @@ long mills = 0;
 void setup()
 {
     pinMode(laser, OUTPUT);
-    Serial.begin(250000);
+    Serial.begin(2000000);
 }
 
 void loop()
@@ -19,8 +20,11 @@ void loop()
     while (Serial.available())
     {
         messagebin = Serial.readString();
+        //msglen = messagebin.length();
+        //msglen = messagebin.lenght();
         
     }
+    RS::ReedSolomon<msglen, 10> rs;
     String message = TextToBinary(messagebin);
     analogWrite(laser, out1);
     delay(bitdelay * 8);
@@ -38,6 +42,7 @@ void loop()
             analogWrite(laser, out0);
         }
         delay(mills - millis() + bitdelay);
+        //delay(bitdelay);
     }
     analogWrite(laser, 0);
     delay(bitdelay * wait);
@@ -57,6 +62,7 @@ String TextToBinary(String convertText)
             byte bytes = bitRead(myChar, i);
             convertedText = convertedText + bytes;
         }
+        //convertedText = convertedText + "11111111";
     }
     return convertedText;
 }
