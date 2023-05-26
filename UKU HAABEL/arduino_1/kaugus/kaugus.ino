@@ -9,6 +9,7 @@ void setup()
     lcd.begin(16, 2);
     pinMode(trig, OUTPUT);
     pinMode(echo, INPUT);
+    Serial.begin(2000000);
 }
 void loop()
 {
@@ -20,10 +21,13 @@ void loop()
     digitalWrite(trig, LOW);
     time = pulseIn(echo, HIGH);
     distance = time / 58.2;
+    lcd.clear();
     lcd.setCursor(1, 0);
 
     lcd.print("Sein on NII kaugel");
     lcd.setCursor(3, 1);
+    Serial.println(distance);
+    
 
     lcd.print(distance);
     delay(100);

@@ -1,4 +1,3 @@
-#include <RS-FEC.h>
 #define laser 3
 
 String messagebin = "hiina";
@@ -24,7 +23,6 @@ void loop()
         //msglen = messagebin.lenght();
         
     }
-    RS::ReedSolomon<msglen, 10> rs;
     String message = TextToBinary(messagebin);
     analogWrite(laser, out1);
     delay(bitdelay * 8);
